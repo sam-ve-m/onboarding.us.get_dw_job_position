@@ -16,10 +16,10 @@ from src.repositories.cache.repository import EmployPositionsCacheRepository
 class EmployPositionsRepository:
 
     @staticmethod
-    def build_employ_positions_model(employ_position: dict) -> EmployPositionsResponse:
+    def build_employ_positions_model(employ_position) -> EmployPositionsResponse:
         employ_positions_model = EmployPositionsResponse(
-            code=employ_position.get("CODE"),
-            description=employ_position.get("DESCRIPTION"),
+            code=employ_position[0],
+            description=employ_position[1],
         )
 
         return employ_positions_model
@@ -27,25 +27,18 @@ class EmployPositionsRepository:
     @classmethod
     def get_employ_positions(cls) -> List[EmployPositionsResponse]:
         try:
-            # todo - incluir o nome da tabela
-            # sql = """
-            #     SELECT CODE as code, DESCRIPTION as description
-            #     FROM USPIXDB001.XXXXXXXX
-            #     """
+            sql = """
+                SELECT CODE, DESCRIPTION
+                FROM USPIXDB001.SINCAD_EXTERNAL_EMPLOY_POSITIONS
+                """
 
-            # result = cls._get_employ_cached_enum(query=sql)
-
-            sql_response_stub = [
-                {"CODE": "ADVERTISER", "DESCRIPTION": "ANUNCIANTE"},
-                {"CODE": "AGENT", "DESCRIPTION": "AGENTE"},
-                {"CODE": "ANALYST", "DESCRIPTION": "ANALISTA"}
-            ]
+            employ_positions_tuple = cls._get_employ_cached_enum(query=sql)
 
             employ_positions_model = [
                 EmployPositionsRepository.build_employ_positions_model(
                     employ_position=employ_position
                 )
-                for employ_position in sql_response_stub
+                for employ_position in employ_positions_tuple
             ]
 
             return employ_positions_model
@@ -61,7 +54,7 @@ class EmployPositionsRepository:
             return response
 
     @classmethod
-    def _get_employ_cached_enum(cls, query: str) -> list:
+    def _get_employ_cached_enum(cls, query: str):
         if cached_enum := EmployPositionsCacheRepository.get_employ_positions_enum():
             return cached_enum
 
