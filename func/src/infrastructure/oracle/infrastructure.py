@@ -2,7 +2,7 @@
 import cx_Oracle
 
 # PROJECT IMPORTS
-from func.src.infrastructure.env_config import config
+from src.infrastructure.env_config import config
 
 
 class OracleInfrastructure:

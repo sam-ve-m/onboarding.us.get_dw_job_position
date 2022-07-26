@@ -6,11 +6,11 @@ from flask import request, Response, Request, Flask
 from etria_logger import Gladsheim
 
 # PROJECT IMPORTS
-from func.src.domain.enums.status_code.enum import InternalCode
-from func.src.domain.exceptions.exceptions import ErrorOnDecodeJwt
-from func.src.domain.models.jwt.response import Jwt
-from func.src.domain.response.model import ResponseModel
-from func.src.services.employ_positions.service import EmployPositionsService
+from src.domain.enums.status_code.enum import InternalCode
+from src.domain.exceptions.exceptions import ErrorOnDecodeJwt
+from src.domain.models.jwt.response import Jwt
+from src.domain.response.model import ResponseModel
+from src.services.employ_positions.service import EmployPositionsService
 
 app = Flask(__name__)
 

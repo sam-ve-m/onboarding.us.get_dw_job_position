@@ -1,6 +1,6 @@
 # PROJECT IMPORTS
-from func.src.domain.employ_positions.response.model import EmployPositionsRecordResponse, EmployPositionsToResponse
-from func.src.repositories.job_positions.repository import EmployPositionsRepository
+from src.domain.employ_positions.response.model import EmployPositionsRecordResponse, EmployPositionsToResponse
+from src.repositories.job_positions.repository import EmployPositionsRepository
 
 
 class EmployPositionsService:

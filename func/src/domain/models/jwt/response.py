@@ -1,6 +1,8 @@
-# PROJECT IMPORTS
+# THIRD PART IMPORTS
 from heimdall_client import Heimdall, HeimdallStatusResponses
-from func.src.domain.exceptions.exceptions import ErrorOnDecodeJwt
+
+# PROJECT IMPORTS
+from src.domain.exceptions.exceptions import ErrorOnDecodeJwt
 
 
 class Jwt:

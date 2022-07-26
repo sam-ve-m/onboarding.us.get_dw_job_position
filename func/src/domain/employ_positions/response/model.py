@@ -3,7 +3,7 @@ from typing import List
 from pydantic import BaseModel
 
 # PROJECT IMPORTS
-from func.src.domain.employ_positions.model import EmployPositionsModel, EmployPositionsResponse
+from src.domain.employ_positions.model import EmployPositionsModel, EmployPositionsResponse
 
 
 class EmployPositionsRecordResponse(BaseModel):
