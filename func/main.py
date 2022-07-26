@@ -23,7 +23,7 @@ async def get_employ_positions(request_body: Request = request) -> Response:
     try:
         jwt_data = Jwt(jwt=thebes_answer)
         await jwt_data()
-        service_response = EmployPositionsService.get_response()
+        service_response = EmployPositionsService.get_employ_positions_response()
 
         response = ResponseModel(
             success=True,

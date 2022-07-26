@@ -1,4 +1,3 @@
-
 # STANDARD IMPORTS
 from unittest.mock import patch
 import pytest
@@ -15,7 +14,7 @@ from tests.main_stub import decoded_jwt_stub, stub_employ_stub
 
 
 @pytest.mark.asyncio
-@patch.object(EmployPositionsService, "get_response", return_value=stub_employ_stub)
+@patch.object(EmployPositionsService, "get_employ_positions_response", return_value=stub_employ_stub)
 @patch.object(Heimdall, "decode_payload", return_value=(decoded_jwt_stub, HeimdallStatusResponses.SUCCESS))
 async def test_when_sending_right_params_to_get_employ_positions_then_return_the_expected(
         mock_get_response,
@@ -33,7 +32,7 @@ async def test_when_sending_right_params_to_get_employ_positions_then_return_the
 
 @pytest.mark.asyncio
 @patch.object(Heimdall, "decode_payload", return_value=(None, HeimdallStatusResponses.INVALID_TOKEN))
-@patch.object(EmployPositionsService, "get_response", return_value=stub_employ_stub)
+@patch.object(EmployPositionsService, "get_employ_positions_response", return_value=stub_employ_stub)
 async def test_when_sending_invalid_jwt_to_get_employ_positions_then_raise_error(
         mock_decode_payload,
         mock_get_response

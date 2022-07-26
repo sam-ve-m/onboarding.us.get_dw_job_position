@@ -13,7 +13,7 @@ class EmployPositionsRecordResponse(BaseModel):
 class EmployPositionsToResponse:
 
     @staticmethod
-    def employ_types_response(
+    def employ_positions_response(
             employ_positions: List[EmployPositionsResponse]
     ):
 
