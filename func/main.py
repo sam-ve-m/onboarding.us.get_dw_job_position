@@ -1,6 +1,6 @@
 # STANDARD IMPORTS
 from http import HTTPStatus
-from flask import request, Response, Request, Flask
+from flask import request, Response, Request, Flask, jsonify
 
 # THIRD PART IMPORTS
 from etria_logger import Gladsheim
@@ -29,7 +29,7 @@ async def get_employ_positions(request_body: Request = request) -> Response:
             success=True,
             code=InternalCode.SUCCESS,
             message="SUCCESS",
-            result=service_response
+            result=jsonify(service_response.to_dict())
         ).build_http_response(status=HTTPStatus.OK)
         return response
 
