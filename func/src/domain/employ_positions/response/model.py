@@ -9,9 +9,6 @@ from src.domain.employ_positions.model import EmployPositionsModel, EmployPositi
 class EmployPositionsRecordResponse(BaseModel):
     employ_positions: List[EmployPositionsModel]
 
-    def to_dict(self):
-        return self.employ_positions.__dict__
-
 
 class EmployPositionsToResponse:
 
@@ -29,6 +26,6 @@ class EmployPositionsToResponse:
             "employ_positions": employ_positions_response
         }
 
-        response = EmployPositionsRecordResponse(**employ_positions_dict)
+        response = EmployPositionsRecordResponse(**employ_positions_dict).dict()
 
         return response
