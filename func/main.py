@@ -1,7 +1,7 @@
 # STANDARD IMPORTS
 import json
 from http import HTTPStatus
-from flask import request, Response, Request, Flask
+from flask import request, Response, Request
 
 # THIRD PART IMPORTS
 from etria_logger import Gladsheim
@@ -14,10 +14,6 @@ from src.domain.response.model import ResponseModel
 from src.services.employ_positions.service import EmployPositionsService
 
 
-app = Flask(__name__)
-
-
-@app.route('/get_employ_positions')
 async def get_employ_positions(request_body: Request = request) -> Response:
 
     thebes_answer = request_body.headers.get("x-thebes-answer")
@@ -64,6 +60,3 @@ async def get_employ_positions(request_body: Request = request) -> Response:
             message="Something went wrong"
         ).build_http_response(status=HTTPStatus.INTERNAL_SERVER_ERROR)
         return response
-
-if __name__ == "__main__":
-    app.run(debug=True)

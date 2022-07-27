@@ -16,7 +16,7 @@ from src.repositories.cache.repository import EmployPositionsCacheRepository
 class EmployPositionsRepository:
 
     @staticmethod
-    def build_employ_positions_model(employ_position) -> EmployPositionsResponse:
+    def build_employ_positions_model(employ_position: dict) -> EmployPositionsResponse:
         employ_positions_model = EmployPositionsResponse(
             code=employ_position[0],
             description=employ_position[1],
@@ -32,7 +32,7 @@ class EmployPositionsRepository:
                 FROM USPIXDB001.SINCAD_EXTERNAL_EMPLOY_POSITIONS
                 """
 
-            employ_positions_tuple = cls.get_employ_cached_enum(query=sql)
+            employ_positions_tuple = cls._get_employ_cached_enum(query=sql)
 
             employ_positions_model = [
                 EmployPositionsRepository.build_employ_positions_model(
@@ -49,12 +49,12 @@ class EmployPositionsRepository:
                 result=False,
                 success=False,
                 code=InternalCode.INTERNAL_SERVER_ERROR,
-                message="Not Sent to Persephone"
+                message="Not able to get data from database"
             ).build_http_response(status=HTTPStatus.INTERNAL_SERVER_ERROR)
             return response
 
     @classmethod
-    def get_employ_cached_enum(cls, query: str):
+    def _get_employ_cached_enum(cls, query: str) -> list:
         if cached_enum := EmployPositionsCacheRepository.get_employ_positions_enum():
             return cached_enum
 
