@@ -1,8 +1,6 @@
 # THIRD PART IMPORT
 import cx_Oracle
-
-# PROJECT IMPORTS
-from src.infrastructure.env_config import config
+from decouple import config
 
 
 class OracleInfrastructure:

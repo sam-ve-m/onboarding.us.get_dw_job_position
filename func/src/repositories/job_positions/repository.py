@@ -32,7 +32,7 @@ class EmployPositionsRepository:
                 FROM USPIXDB001.SINCAD_EXTERNAL_EMPLOY_POSITIONS
                 """
 
-            employ_positions_tuple = cls._get_employ_cached_enum(query=sql)
+            employ_positions_tuple = cls.get_employ_cached_enum(query=sql)
 
             employ_positions_model = [
                 EmployPositionsRepository.build_employ_positions_model(
@@ -54,7 +54,7 @@ class EmployPositionsRepository:
             return response
 
     @classmethod
-    def _get_employ_cached_enum(cls, query: str):
+    def get_employ_cached_enum(cls, query: str):
         if cached_enum := EmployPositionsCacheRepository.get_employ_positions_enum():
             return cached_enum
 

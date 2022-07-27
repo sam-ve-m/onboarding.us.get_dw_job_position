@@ -25,10 +25,15 @@ NADA É REQUERIDO
 ```
 {
     "result": {
-        "employ_types": [
-            "code='FINANCE' description='FINANÇA'",
-            "code='REAL_ESTATE' description='IMOBILIÁRIA'",
-            "code='PROFESSIONAL' description='PROFISSIONAL'"
+        "employ_positions": [
+            {
+                "code": "ACCOUNTANT",
+                "description": "ACCOUNTANT"
+            },
+            {
+                "code": "ACTUARY",
+                "description": "ACTUARY"
+            }
         ]
     },
     "message": "SUCCESS",
