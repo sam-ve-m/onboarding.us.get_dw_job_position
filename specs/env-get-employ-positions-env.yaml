@@ -19,7 +19,7 @@ spec:
     image: nexus.sigame.com.br/fission-async:0.1.6
     podspec:
       containers:
-        - name: get-employ-types-env
+        - name: get-employ-positions-env
           env:
             - name: ASGI_FRAMEWORK
               value: "HYPERCORN"

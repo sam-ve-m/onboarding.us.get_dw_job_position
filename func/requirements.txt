@@ -6,3 +6,4 @@ python-decouple==3.6
 etria_logger==0.1.10
 cx-Oracle==8.3.0
 mnemosine==0.1.2
+pydantic==1.9.1
