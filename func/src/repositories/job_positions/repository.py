@@ -6,9 +6,9 @@ from typing import List
 from etria_logger import Gladsheim
 
 # PROJECT IMPORTS
-from src.domain.employ_positions.model import EmployPositionsResponse
+from src.domain.models.employ_positions import EmployPositionsResponse
 from src.domain.enums.status_code.enum import InternalCode
-from src.domain.response.model import ResponseModel
+from src.domain.models.response import ResponseModel
 from src.repositories.base_repository.oracle.base import OracleBaseRepository
 from src.repositories.cache.repository import EmployPositionsCacheRepository
 

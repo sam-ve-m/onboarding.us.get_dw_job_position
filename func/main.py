@@ -10,7 +10,7 @@ from etria_logger import Gladsheim
 from src.domain.enums.status_code.enum import InternalCode
 from src.domain.exceptions.exceptions import ErrorOnDecodeJwt
 from src.domain.models.jwt.response import Jwt
-from src.domain.response.model import ResponseModel
+from src.domain.models.response import ResponseModel
 from src.services.employ_positions.service import EmployPositionsService
 
 

@@ -1,5 +1,5 @@
 # PROJECT IMPORTS
-from src.domain.employ_positions.response.model import EmployPositionsToResponse, EmployPositionsRecordResponse
+from src.domain.models.employ_positions.response.model import EmployPositionsToResponse, EmployPositionsRecordResponse
 from src.repositories.job_positions.repository import EmployPositionsRepository
 
 
