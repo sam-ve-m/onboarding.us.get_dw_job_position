@@ -1,0 +1,55 @@
+include:
+- ./func/*
+kind: ArchiveUploadSpec
+name: func-YQF7
+
+---
+apiVersion: fission.io/v1
+kind: Package
+metadata:
+  creationTimestamp: null
+  name: get-employ-positions-fn-8f0decd7-3055-4a0a-b60e-87b3caaf0fc4
+  namespace: default
+spec:
+  deployment:
+    checksum: {}
+  environment:
+    name: get-employ-positions-env
+    namespace: default
+  source:
+    checksum: {}
+    type: url
+    url: archive://func-YQF7
+status:
+  buildstatus: pending
+  lastUpdateTimestamp: "2022-07-27T18:08:29Z"
+
+---
+apiVersion: fission.io/v1
+kind: Function
+metadata:
+  creationTimestamp: null
+  name: get-employ-positions-fn
+  namespace: default
+spec:
+  InvokeStrategy:
+    ExecutionStrategy:
+      ExecutorType: newdeploy
+      MaxScale: 1
+      MinScale: 1
+      SpecializationTimeout: 120
+      TargetCPUPercent: 80
+    StrategyType: execution
+  concurrency: 500
+  environment:
+    name: get-employ-positions-env
+    namespace: default
+  functionTimeout: 60
+  idletimeout: 120
+  package:
+    functionName: main.get_employ_positions
+    packageref:
+      name: get-employ-positions-fn-8f0decd7-3055-4a0a-b60e-87b3caaf0fc4
+      namespace: default
+  requestsPerPod: 1
+  resources: {}
