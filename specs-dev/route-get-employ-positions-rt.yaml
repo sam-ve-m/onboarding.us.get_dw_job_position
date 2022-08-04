@@ -14,10 +14,10 @@ spec:
   ingressconfig:
     annotations: null
     host: '*'
-    path: /get-employ-positions
+    path: /enum/get_employ_positions
     tls: ""
   method: ""
   methods:
   - GET
   prefix: ""
-  relativeurl: /get-employ-positions
+  relativeurl: /enum/get_employ_positions

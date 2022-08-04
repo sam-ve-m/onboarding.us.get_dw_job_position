@@ -16,7 +16,7 @@ spec:
   poolsize: 3
   resources: {}
   runtime:
-    image: nexus.sigame.com.br/fission-async:0.1.6
+    image: nexus.sigame.com.br/fission-env-cx-async:0.0.1
     podspec:
       containers:
         - name: get-employ-positions-env
@@ -50,7 +50,7 @@ spec:
             - name: HEIMDALL_JWT_REQUIRED_FIELDS
               value: "[]"
             - name: HEIMDALL_REDIS_URL
-              value: "redis://heimdal:LLOnmUUffhaUHnewIz@oci-sit-external-redis:6379?db=1"" 
+              value: "redis://heimdal:LLOnmUUffhaUHnewIz@oci-sit-external-redis:6379?db=1"
             - name: ETRIA_LOG_LEVEL
               value: "INFO"
             - name: ROOT_LOG_LEVEL
