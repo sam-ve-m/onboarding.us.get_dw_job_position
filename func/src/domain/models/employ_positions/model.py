@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 class EmployPositionsModel(BaseModel):
     code: str
-    description: str
+    value: str
 
 
 @dataclass(init=True)
@@ -16,7 +16,7 @@ class EmployPositionsResponse:
     def __repr__(self):
         employ_response = {
             "code": self.code,
-            "description": self.description
+            "value": self.description
         }
 
         return employ_response
