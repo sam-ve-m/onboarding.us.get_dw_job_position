@@ -1,16 +1,13 @@
-# STANDARD IMPORTS
 from unittest.mock import patch
+
 import pytest
 from flask import Flask
+from heimdall_client import Heimdall, HeimdallStatusResponses
 from werkzeug.datastructures import Headers
 
-# PROJECT IMPORTS
-from heimdall_client import Heimdall, HeimdallStatusResponses
-from func.main import get_employ_positions
-from func.src.domain.exceptions.exceptions import FailToFetchData
-from func.src.services.employ_positions.service import EmployPositionsService
-
-# STUB IMPORTS
+from main import get_employ_positions
+from src.domain.exceptions.exceptions import FailToFetchData
+from src.services.employ_positions.service import EmployPositionsService
 from tests.main_stub import decoded_jwt_stub, stub_employ_stub
 
 
@@ -51,7 +48,7 @@ async def test_when_sending_invalid_jwt_to_get_employ_positions_then_raise_error
 
 @pytest.mark.asyncio
 @patch.object(Heimdall, "decode_payload", return_value=(decoded_jwt_stub, HeimdallStatusResponses.SUCCESS))
-@patch.object(EmployPositionsService, "get_employ_positions_response")
+@patch.object(EmployPositionsService, "get_employ_positions_response", return_value=None)
 async def test_when_fail_to_fetch_data(
     mock_get_response,
     mock_decode_payload
