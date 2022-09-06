@@ -24,18 +24,16 @@ NADA É REQUERIDO
 
 ```
 {
-    "result": {
-        "employ_positions": [
-            {
-                "code": "ACCOUNTANT",
-                "description": "ACCOUNTANT"
-            },
-            {
-                "code": "ACTUARY",
-                "description": "ACTUARY"
-            }
-        ]
-    },
+    "result": [
+        {
+            "code": "ACCOUNTANT",
+            "description": "ACCOUNTANT"
+        },
+        {
+            "code": "ACTUARY",
+            "description": "ACTUARY"
+        }
+    ],
     "message": "SUCCESS",
     "success": true,
     "code": 0

@@ -1,13 +1,8 @@
 # STANDARD IMPORTS
 from typing import List
-from pydantic import BaseModel
 
 # PROJECT IMPORTS
 from src.domain.models.employ_positions.model import EmployPositionsModel, EmployPositionsResponse
-
-
-class EmployPositionsRecordResponse(BaseModel):
-    employ_positions: List[EmployPositionsModel]
 
 
 class EmployPositionsToResponse:
@@ -18,14 +13,8 @@ class EmployPositionsToResponse:
     ):
 
         employ_positions_response = [
-            EmployPositionsModel(**employ_position.__repr__())
+            EmployPositionsModel(**employ_position.__repr__()).dict()
             for employ_position in employ_positions
         ]
 
-        employ_positions_dict = {
-            "employ_positions": employ_positions_response
-        }
-
-        response = EmployPositionsRecordResponse(**employ_positions_dict).dict()
-
-        return response
+        return employ_positions_response

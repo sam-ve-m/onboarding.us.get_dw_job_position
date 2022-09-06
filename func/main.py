@@ -1,12 +1,8 @@
-# STANDARD IMPORTS
-import json
 from http import HTTPStatus
+
+from etria_logger import Gladsheim
 from flask import request, Response, Request
 
-# THIRD PART IMPORTS
-from etria_logger import Gladsheim
-
-# PROJECT IMPORTS
 from src.domain.enums.status_code.enum import InternalCode
 from src.domain.exceptions.exceptions import ErrorOnDecodeJwt, FailToFetchData
 from src.domain.models.jwt.response import Jwt
