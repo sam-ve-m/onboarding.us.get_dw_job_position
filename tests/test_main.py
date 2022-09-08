@@ -61,5 +61,5 @@ async def test_when_fail_to_fetch_data(
         result = await get_employ_positions(
             request_body=request
         )
-    expected_result = b'{"result": false, "message": "Not able to get data from database", "success": false, "code": 100}'
+    expected_result = b'{"result": null, "message": "Not able to get data from database", "success": false, "code": 100}'
     assert result.data == expected_result

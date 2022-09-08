@@ -30,7 +30,6 @@ async def get_employ_positions(request_body: Request = request) -> Response:
     except ErrorOnDecodeJwt as error:
         Gladsheim.error(error=error)
         response = ResponseModel(
-            result=False,
             success=False,
             code=InternalCode.JWT_INVALID,
             message="Error On Decoding JWT"
@@ -40,7 +39,6 @@ async def get_employ_positions(request_body: Request = request) -> Response:
     except TypeError as error:
         Gladsheim.error(error=error)
         response = ResponseModel(
-            result=False,
             success=False,
             code=InternalCode.DATA_NOT_FOUND,
             message="Data not found or inconsistent"
@@ -50,7 +48,6 @@ async def get_employ_positions(request_body: Request = request) -> Response:
     except FailToFetchData as error:
         Gladsheim.error(error=error)
         response = ResponseModel(
-            result=False,
             success=False,
             code=InternalCode.INTERNAL_SERVER_ERROR,
             message="Not able to get data from database"
@@ -60,7 +57,6 @@ async def get_employ_positions(request_body: Request = request) -> Response:
     except Exception as error:
         Gladsheim.error(error=error)
         response = ResponseModel(
-            result=False,
             success=False,
             code=InternalCode.DATA_NOT_FOUND,
             message="Something went wrong"
