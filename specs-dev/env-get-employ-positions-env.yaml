@@ -28,6 +28,10 @@ spec:
               value: "/5pswHkrCgWhMYrV7TM7oVm8VtulfzdYKE2rlS8f"
             - name: MNEMOSINE_REDIS_HOST
               value: "redis://bnd:jkl321pqr@172.30.11.235:6379"
+            - name: ROOT_LOG_LEVEL
+              value: "INFO"
+            - name: ETRIA_LOG_LEVEL
+              value: "INFO"
             - name: ORACLE_BASE_DSN
               value: "172.30.10.227"
             - name: ORACLE_USER
