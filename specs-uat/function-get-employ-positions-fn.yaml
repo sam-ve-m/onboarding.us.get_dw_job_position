@@ -51,5 +51,5 @@ spec:
     packageref:
       name: get-employ-positions-fn-a92b25af-fc9b-4e84-94ad-f3e19b84534a
       namespace: default
-  requestsPerPod: 1
+  requestsPerPod: 10000
   resources: {}
