@@ -1,65 +1,121 @@
+# PROJECT IMPORTS
+import logging.config
+from http import HTTPStatus
+from unittest.mock import MagicMock
 from unittest.mock import patch
 
+import flask
 import pytest
-from flask import Flask
-from heimdall_client import Heimdall, HeimdallStatusResponses
-from werkzeug.datastructures import Headers
+from decouple import RepositoryEnv, Config
 
-from main import get_employ_positions
-from src.domain.exceptions.exceptions import FailToFetchData
-from src.services.employ_positions.service import EmployPositionsService
-from tests.main_stub import decoded_jwt_stub, stub_employ_stub
+with patch.object(RepositoryEnv, "__init__", return_value=None):
+    with patch.object(Config, "__init__", return_value=None):
+        with patch.object(Config, "__call__"):
+            with patch.object(logging.config, "dictConfig"):
+                from etria_logger import Gladsheim
+                from main import get_employ_positions
+                from src.domain.models.jwt.response import Jwt
+                from src.domain.enums.status_code.enum import InternalCode
+                from src.domain.models.response.model import ResponseModel
+                from src.domain.exceptions.exceptions import InternalServerError, ErrorOnDecodeJwt, FailToFetchData
+                from src.services.employ_positions.service import EmployPositionsService
+
+
+internal_server_error_case = (
+    InternalServerError("dummy"),
+    "dummy",
+    InternalCode.INTERNAL_SERVER_ERROR,
+    "Something went wrong",
+    HTTPStatus.INTERNAL_SERVER_ERROR
+)
+error_on_decode_jwt_case = (
+    ErrorOnDecodeJwt(),
+    ErrorOnDecodeJwt.msg,
+    InternalCode.JWT_INVALID,
+    "Error On Decoding JWT",
+    HTTPStatus.UNAUTHORIZED
+)
+fail_to_fetch_data_case = (
+    FailToFetchData(),
+    FailToFetchData.msg,
+    InternalCode.INTERNAL_SERVER_ERROR,
+    "Not able to get data from database",
+    HTTPStatus.INTERNAL_SERVER_ERROR
+)
+
+
+typeerror_exception_case = (
+    TypeError("dummy"),
+    "dummy",
+    InternalCode.DATA_NOT_FOUND,
+    "Data not found or inconsistent",
+    HTTPStatus.UNAUTHORIZED
+)
+exception_case = (
+    Exception("dummy"),
+    "dummy",
+    InternalCode.INTERNAL_SERVER_ERROR,
+    "Something went wrong",
+    HTTPStatus.INTERNAL_SERVER_ERROR
+)
 
 
 @pytest.mark.asyncio
-@patch.object(EmployPositionsService, "get_employ_positions_response", side_effect=stub_employ_stub)
-@patch.object(Heimdall, "decode_payload", return_value=(decoded_jwt_stub, HeimdallStatusResponses.SUCCESS))
-async def test_when_sending_right_params_to_get_employ_positions_then_return_the_expected(
-        mock_get_employ_positions_response,
-        mock_decode_payload
+@pytest.mark.parametrize("exception,error_message,internal_status_code,response_message,response_status_code", [
+    internal_server_error_case,
+    error_on_decode_jwt_case,
+    fail_to_fetch_data_case,
+    typeerror_exception_case,
+    exception_case,
+])
+@patch.object(EmployPositionsService, "get_employ_positions_response")
+@patch.object(Gladsheim, "error")
+@patch.object(Jwt, "__init__", return_value=None)
+@patch.object(Jwt, "__call__")
+@patch.object(ResponseModel, "__init__", return_value=None)
+@patch.object(ResponseModel, "build_http_response")
+async def test_get_employ_positions_raising_errors(
+            mocked_build_response, mocked_response_instance, mocked_jwt_decode,
+            mocked_jwt_instance, mocked_logger, mocked_service, monkeypatch,
+            exception, error_message, internal_status_code, response_message, response_status_code,
 ):
-    app = Flask(__name__)
-    with app.test_request_context(
-            headers=Headers({"x-thebes-answer": "jwt_to_decode_stub"}),
-    ).request as request:
+    monkeypatch.setattr(flask, "request", MagicMock())
+    mocked_jwt_decode.side_effect = exception
+    await get_employ_positions()
+    mocked_service.assert_not_called()
+    mocked_logger.assert_called_once_with(error=exception, message=error_message)
+    mocked_response_instance.assert_called_once_with(
+        success=False,
+        code=internal_status_code.value,
+        message=response_message
+    )
+    mocked_build_response.assert_called_once_with(status=response_status_code)
 
-        response = await get_employ_positions(
-            request_body=request
-        )
-        assert response is not None
+
+dummy_response = "response"
 
 
 @pytest.mark.asyncio
-@patch.object(Heimdall, "decode_payload", return_value=(None, HeimdallStatusResponses.INVALID_TOKEN))
-@patch.object(EmployPositionsService, "get_employ_positions_response", return_value=stub_employ_stub)
-async def test_when_sending_invalid_jwt_to_get_employ_positions_then_raise_error(
-        mock_decode_payload,
-        mock_get_response
+@patch.object(EmployPositionsService, "get_employ_positions_response", return_value=dummy_response)
+@patch.object(Gladsheim, "error")
+@patch.object(Jwt, "__init__", return_value=None)
+@patch.object(Jwt, "__call__")
+@patch.object(ResponseModel, "__init__", return_value=None)
+@patch.object(ResponseModel, "build_http_response", return_value=dummy_response)
+async def test_get_employ_positions(
+        mocked_build_response, mocked_response_instance, mocked_jwt_decode,
+        mocked_jwt_instance, mocked_logger, mocked_service, monkeypatch,
 ):
-    app = Flask(__name__)
-    with app.test_request_context(
-            headers=Headers({"x-thebes-answer": "jwt_to_decode_stub"}),
-    ).request as request:
-        with pytest.raises(Exception):
-            await get_employ_positions(
-                request_body=None
-            )
-
-
-@pytest.mark.asyncio
-@patch.object(Heimdall, "decode_payload", return_value=(decoded_jwt_stub, HeimdallStatusResponses.SUCCESS))
-@patch.object(EmployPositionsService, "get_employ_positions_response", return_value=None)
-async def test_when_fail_to_fetch_data(
-    mock_get_response,
-    mock_decode_payload
-):
-    mock_get_response.side_effect = FailToFetchData()
-    app = Flask(__name__)
-    with app.test_request_context(
-            headers=Headers({"x-thebes-answer": "jwt_to_decode_stub"}),
-    ).request as request:
-        result = await get_employ_positions(
-            request_body=request
-        )
-    expected_result = b'{"result": null, "message": "Not able to get data from database", "success": false, "code": 100}'
-    assert result.data == expected_result
+    monkeypatch.setattr(flask, "request", MagicMock())
+    response = await get_employ_positions()
+    mocked_jwt_decode.assert_called()
+    mocked_service.assert_called()
+    mocked_logger.assert_not_called()
+    mocked_response_instance.assert_called_once_with(
+        result=dummy_response,
+        success=True,
+        code=InternalCode.SUCCESS.value,
+        message='SUCCESS',
+    )
+    mocked_build_response.assert_called_once_with(status=HTTPStatus.OK)
+    assert dummy_response == response
