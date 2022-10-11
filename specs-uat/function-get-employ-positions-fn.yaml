@@ -1,14 +1,14 @@
 include:
 - ./func/*
 kind: ArchiveUploadSpec
-name: func-TmhS
+name: func-b1qo
 
 ---
 apiVersion: fission.io/v1
 kind: Package
 metadata:
   creationTimestamp: null
-  name: get-employ-positions-fn-a92b25af-fc9b-4e84-94ad-f3e19b84534a
+  name: get-employ-positions-fn-74bc292a-79ca-4f6c-a02b-cb847aec7b41
   namespace: default
 spec:
   deployment:
@@ -19,10 +19,10 @@ spec:
   source:
     checksum: {}
     type: url
-    url: archive://func-TmhS
+    url: archive://func-b1qo
 status:
   buildstatus: pending
-  lastUpdateTimestamp: "2022-08-19T14:16:41Z"
+  lastUpdateTimestamp: "2022-10-07T10:55:50Z"
 
 ---
 apiVersion: fission.io/v1
@@ -35,7 +35,7 @@ spec:
   InvokeStrategy:
     ExecutionStrategy:
       ExecutorType: newdeploy
-      MaxScale: 1
+      MaxScale: 3
       MinScale: 1
       SpecializationTimeout: 120
       TargetCPUPercent: 80
@@ -49,7 +49,7 @@ spec:
   package:
     functionName: main.get_employ_positions
     packageref:
-      name: get-employ-positions-fn-a92b25af-fc9b-4e84-94ad-f3e19b84534a
+      name: get-employ-positions-fn-74bc292a-79ca-4f6c-a02b-cb847aec7b41
       namespace: default
   requestsPerPod: 10000
   resources: {}
