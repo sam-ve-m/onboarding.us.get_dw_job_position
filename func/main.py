@@ -4,15 +4,16 @@ from etria_logger import Gladsheim
 from flask import request, Response, Request
 
 from src.domain.enums.status_code.enum import InternalCode
-from src.domain.exceptions.exceptions import ErrorOnDecodeJwt, FailToFetchData
+from src.domain.exceptions.exceptions import ErrorOnDecodeJwt, FailToFetchData, InternalServerError
 from src.domain.models.jwt.response import Jwt
 from src.domain.models.response.model import ResponseModel
 from src.services.employ_positions.service import EmployPositionsService
+import flask
 
 
-async def get_employ_positions(request_body: Request = request) -> Response:
+async def get_employ_positions() -> flask.Response:
 
-    thebes_answer = request_body.headers.get("x-thebes-answer")
+    thebes_answer = flask.request.headers.get("x-thebes-answer")
 
     try:
         jwt_data = Jwt(jwt=thebes_answer)
@@ -21,44 +22,44 @@ async def get_employ_positions(request_body: Request = request) -> Response:
 
         response = ResponseModel(
             success=True,
-            code=InternalCode.SUCCESS,
+            code=InternalCode.SUCCESS.value,
             message="SUCCESS",
             result=service_response
         ).build_http_response(status=HTTPStatus.OK)
         return response
 
     except ErrorOnDecodeJwt as error:
-        Gladsheim.error(error=error)
+        Gladsheim.error(error=error, message=error.msg)
         response = ResponseModel(
             success=False,
-            code=InternalCode.JWT_INVALID,
+            code=InternalCode.JWT_INVALID.value,
             message="Error On Decoding JWT"
         ).build_http_response(status=HTTPStatus.UNAUTHORIZED)
         return response
 
     except TypeError as error:
-        Gladsheim.error(error=error)
+        Gladsheim.error(error=error, message=str(error))
         response = ResponseModel(
             success=False,
-            code=InternalCode.DATA_NOT_FOUND,
+            code=InternalCode.DATA_NOT_FOUND.value,
             message="Data not found or inconsistent"
         ).build_http_response(status=HTTPStatus.UNAUTHORIZED)
         return response
 
     except FailToFetchData as error:
-        Gladsheim.error(error=error)
+        Gladsheim.error(error=error, message=error.msg)
         response = ResponseModel(
             success=False,
-            code=InternalCode.INTERNAL_SERVER_ERROR,
+            code=InternalCode.INTERNAL_SERVER_ERROR.value,
             message="Not able to get data from database"
         ).build_http_response(status=HTTPStatus.INTERNAL_SERVER_ERROR)
         return response
 
-    except Exception as error:
-        Gladsheim.error(error=error)
+    except (Exception, InternalServerError) as error:
+        Gladsheim.error(error=error, message=str(error))
         response = ResponseModel(
             success=False,
-            code=InternalCode.DATA_NOT_FOUND,
+            code=InternalCode.INTERNAL_SERVER_ERROR.value,
             message="Something went wrong"
         ).build_http_response(status=HTTPStatus.INTERNAL_SERVER_ERROR)
         return response

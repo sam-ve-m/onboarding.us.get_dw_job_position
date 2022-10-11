@@ -1,7 +1,3 @@
-class InvalidParams(Exception):
-    msg = "Jormungandr-Onboarding::w8_confirmation_param::Invalid params were sent"
-
-
 class InternalServerError(Exception):
     pass
 
@@ -12,4 +8,4 @@ class ErrorOnDecodeJwt(Exception):
 
 
 class FailToFetchData(Exception):
-    pass
+    msg = "Impossible to reach database and get data."
