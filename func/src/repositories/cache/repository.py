@@ -1,30 +1,27 @@
-# STANDARD IMPORTS
-from typing import Union
-
-# THIRD PART IMPORTS
+from typing import List, Optional
 from etria_logger import Gladsheim
 from mnemosine import SyncCache
 
+from src.domain.exceptions.exceptions import FailToFetchData
 
-class EmployPositionsCacheRepository:
-    enum_key = "jormungandr:EnumEmployPositions"
+
+class EmployPositionCacheRepository:
+    enum_key = "jormungandr:EnumEmployPosition"
 
     @classmethod
-    def save_employ_positions_enum(cls, employ_positions: list, time: int = 3600) -> bool:
+    def save_employ_position_enum(cls, employ_position: list, time: int = 3600) -> bool:
         try:
-            SyncCache.save(cls.enum_key, list(employ_positions), int(time))
+            SyncCache.save(cls.enum_key, list(employ_position), time)
             return True
-        except ValueError as error:
-            Gladsheim.error(error=error, message="Error saving enum in cache.")
-            return False
-        except TypeError as error:
-            Gladsheim.error(error=error, message="Error saving enum in cache.")
-            return False
         except Exception as error:
             Gladsheim.error(error=error, message="Error saving enum in cache.")
-            return False
+            raise FailToFetchData()
 
     @classmethod
-    def get_employ_positions_enum(cls) -> Union[list, None]:
-        result = SyncCache.get(cls.enum_key)
-        return result
+    def get_employ_position_enum(cls) -> Optional[List[tuple]]:
+        try:
+            result = SyncCache.get(cls.enum_key)
+            return result
+        except Exception as error:
+            Gladsheim.error(error=error, message="Error saving enum in cache.")
+            raise FailToFetchData()
