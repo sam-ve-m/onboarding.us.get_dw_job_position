@@ -25,18 +25,8 @@ spec:
               value: "INFO"
             - name: ETRIA_LOG_LEVEL
               value: "INFO"
-            - name: ORACLE_BASE_DSN
-              value: "172.30.10.227"
-            - name: ORACLE_USER
-              value: "ujormdb001"
-            - name: ORACLE_PASSWORD
-              value: "kALneMdsin767"
-            - name: ORACLE_SERVICE
-              value: "OPDBDEV.SUBPRIV.VCNDEV.ORACLEVCN.COM"
-            - name: ORACLE_ENCODING
-              value: "UTF-8"
-            - name: ORACLE_PORT
-              value: "1521"
+            - name: ORACLE_CONNECTION_STRING
+              value: "ujormdb001/kALneMdsin767@(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=172.30.10.227)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=OPDBDEV.SUBPRIV.VCNDEV.ORACLEVCN.COM)))"
             - name: REDIS_HOST_URL
               value: "redis://bnd:93uOKu5H@172.30.19.183:6379"
             - name: REDIS_CACHE_DB
