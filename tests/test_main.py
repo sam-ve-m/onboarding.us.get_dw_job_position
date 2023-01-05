@@ -13,11 +13,11 @@ with patch.object(RepositoryEnv, "__init__", return_value=None):
         with patch.object(Config, "__call__"):
             with patch.object(logging.config, "dictConfig"):
                 from etria_logger import Gladsheim
-                from main import get_employ_positions
-                from src.domain.enums.status_code.enum import InternalCode
-                from src.domain.models.response.model import ResponseModel
-                from src.domain.exceptions.exceptions import FailToFetchData
-                from src.services.employ_position.service import EmployPositionService
+                from func.main import get_employ_positions
+                from func.src.domain.enums.status_code.enum import InternalCode
+                from func.src.domain.models.response.model import ResponseModel
+                from func.src.domain.exceptions.exceptions import FailToFetchData
+                from func.src.services.employ_position.service import EmployPositionService
 
 
 fail_to_fetch_data_case = (
@@ -59,7 +59,7 @@ async def test_get_employ_position_raising_errors(
         code=internal_status_code.value,
         message=response_message
     )
-    mocked_build_response.assert_called_once_with(position=response_status_code)
+    mocked_build_response.assert_called_once_with(status=response_status_code)
 
 
 dummy_response = "response"
@@ -84,5 +84,5 @@ async def test_get_employ_position(
         code=InternalCode.SUCCESS.value,
         message='SUCCESS',
     )
-    mocked_build_response.assert_called_once_with(position=HTTPStatus.OK)
+    mocked_build_response.assert_called_once_with(status=HTTPStatus.OK)
     assert dummy_response == response

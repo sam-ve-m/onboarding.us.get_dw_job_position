@@ -1,5 +1,5 @@
 from unittest.mock import patch, MagicMock
-from src.domain.models.employ_position.model import EmployPositionModel
+from func.src.domain.models.employ_position.model import EmployPositionModel
 
 
 dummy_value = 0, 1

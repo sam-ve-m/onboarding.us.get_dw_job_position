@@ -2,35 +2,39 @@ apiVersion: fission.io/v1
 kind: Environment
 metadata:
   creationTimestamp: null
-  name: get-employ-positions-env
+  name: onb-us-enum-jb-pos-env
   namespace: default
 spec:
   builder:
-    command: build
-    image: nexus.sigame.com.br/fission-builder-3.8:0.0.1
-  imagepullsecret: "nexus-v3"
+    container:
+      name: ""
+      resources: {}
+  imagepullsecret: nexus-v3
   keeparchive: false
   resources: {}
   runtime:
-    image: nexus.sigame.com.br/fission-env-cx-async:0.0.1
+    container:
+      name: ""
+      resources: {}
+    image: nexus.sigame.com.br/fission-onboarding-us-enum-job-position:0.1.0
     podspec:
       containers:
-        - name: get-employ-positions-env
+        - name: onb-us-enum-jb-pos-env
           env:
             - name: ASGI_FRAMEWORK
               value: "HYPERCORN"
             - name: MNEMOSINE_REDIS_HOST
-              value: "redis://jormungandr:Mdn45oodsanPOhbrewbDS@172.30.19.183:6379"
+              value: "redis://bnd:jkl321pqr@172.30.11.235:6379"
             - name: ROOT_LOG_LEVEL
               value: "INFO"
             - name: ETRIA_LOG_LEVEL
               value: "INFO"
             - name: ORACLE_CONNECTION_STRING
-              value: "(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=172.30.18.44)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=opdbuat.subpriv.vcnuat.oraclevcn.com)))"
+              value: "(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=172.30.10.227)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=OPDBDEV.SUBPRIV.VCNDEV.ORACLEVCN.COM)))"
             - name: ORACLE_USER
               value: "ujormdb001"
             - name: ORACLE_PASSWORD
-              value: "YhrewmJDSA76hba"
+              value: "kALneMdsin767"
             - name: REDIS_HOST_URL
               value: "redis://bnd:93uOKu5H@172.30.19.183:6379"
             - name: REDIS_CACHE_DB

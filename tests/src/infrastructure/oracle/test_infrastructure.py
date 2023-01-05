@@ -2,8 +2,8 @@ import cx_Oracle
 import pytest
 from etria_logger import Gladsheim
 
-from src.domain.exceptions.exceptions import FailToFetchData
-from src.infrastructure.oracle.infrastructure import OracleInfrastructure
+from func.src.domain.exceptions.exceptions import FailToFetchData
+from func.src.infrastructure.oracle.infrastructure import OracleInfrastructure
 from unittest.mock import patch, MagicMock
 from decouple import AutoConfig
 
@@ -18,28 +18,16 @@ def test_get_client(mocked_env, mocked_connection, mocked_dsn):
     new_connection_created = OracleInfrastructure._get_connection()
     assert new_connection_created == mocked_connection.return_value
     mocked_connection.assert_called_once_with(
-        encoding=mocked_env.return_value,
         password=mocked_env.return_value,
         user=mocked_env.return_value,
-        dsn=mocked_dsn.return_value,
-    )
-    mocked_dsn.assert_called_once_with(
-        mocked_env.return_value,
-        mocked_env.return_value,
-        service_name=mocked_env.return_value,
+        dsn=mocked_env.return_value,
     )
     reused_client = OracleInfrastructure._get_connection()
     assert reused_client == new_connection_created
     mocked_connection.assert_called_once_with(
-        encoding=mocked_env.return_value,
         password=mocked_env.return_value,
         user=mocked_env.return_value,
-        dsn=mocked_dsn.return_value,
-    )
-    mocked_dsn.assert_called_once_with(
-        mocked_env.return_value,
-        mocked_env.return_value,
-        service_name=mocked_env.return_value,
+        dsn=mocked_env.return_value,
     )
     OracleInfrastructure.connection = None
 

@@ -1,8 +1,8 @@
 from typing import List
 
-from src.domain.models.employ_position.model import EmployPositionModel
-from src.repositories.cache.repository import EmployPositionCacheRepository
-from src.repositories.oracle.repository import EmployPositionOracleRepository
+from func.src.domain.models.employ_position.model import EmployPositionModel
+from func.src.repositories.cache.repository import EmployPositionCacheRepository
+from func.src.repositories.oracle.repository import EmployPositionOracleRepository
 
 
 class EmployPositionService:
