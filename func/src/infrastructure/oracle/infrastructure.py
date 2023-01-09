@@ -6,7 +6,7 @@ import cx_Oracle
 from decouple import config
 from etria_logger import Gladsheim
 
-from src.domain.exceptions.exceptions import FailToFetchData
+from func.src.domain.exceptions.exceptions import FailToFetchData
 
 
 class OracleInfrastructure:
@@ -15,16 +15,10 @@ class OracleInfrastructure:
     @classmethod
     def _get_connection(cls) -> cx_Oracle.Connection:
         if cls.connection is None:
-            dsn = cx_Oracle.makedsn(
-                config("ORACLE_BASE_DSN"),
-                config("ORACLE_PORT"),
-                service_name=config("ORACLE_SERVICE"),
-            )
             cls.connection = cx_Oracle.connect(
-                encoding=config("ORACLE_ENCODING"),
-                password=config("ORACLE_PASSWORD"),
+                dsn=config("ORACLE_CONNECTION_STRING"),
                 user=config("ORACLE_USER"),
-                dsn=dsn,
+                password=config("ORACLE_PASSWORD")
             )
         return cls.connection
 

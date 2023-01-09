@@ -1,35 +1,35 @@
 include:
-- ./func/*
+- fission.py
 kind: ArchiveUploadSpec
-name: func-b1qo
+name: fission-py-Sndd
 
 ---
 apiVersion: fission.io/v1
 kind: Package
 metadata:
   creationTimestamp: null
-  name: get-employ-positions-fn-74bc292a-79ca-4f6c-a02b-cb847aec7b41
+  name: onb-us-enum-jb-pos-fn-fcf6a3a5-6049-4f82-a6fc-d6c4d9191b91
   namespace: default
 spec:
   deployment:
     checksum: {}
+    type: url
+    url: archive://fission-py-Sndd
   environment:
-    name: get-employ-positions-env
+    name: onb-us-enum-jb-pos-env
     namespace: default
   source:
     checksum: {}
-    type: url
-    url: archive://func-b1qo
 status:
-  buildstatus: pending
-  lastUpdateTimestamp: "2022-10-07T10:55:50Z"
+  buildstatus: none
+  lastUpdateTimestamp: "2023-01-05T19:54:06Z"
 
 ---
 apiVersion: fission.io/v1
 kind: Function
 metadata:
   creationTimestamp: null
-  name: get-employ-positions-fn
+  name: onb-us-enum-jb-pos-fn
   namespace: default
 spec:
   InvokeStrategy:
@@ -38,18 +38,24 @@ spec:
       MaxScale: 3
       MinScale: 1
       SpecializationTimeout: 120
-      TargetCPUPercent: 80
+      TargetCPUPercent: 0
+      hpaMetrics:
+      - resource:
+          name: cpu
+          target:
+            averageUtilization: 80
+            type: Utilization
+        type: Resource
     StrategyType: execution
   concurrency: 500
   environment:
-    name: get-employ-positions-env
+    name: onb-us-enum-jb-pos-env
     namespace: default
   functionTimeout: 60
   idletimeout: 120
   package:
-    functionName: main.get_employ_positions
     packageref:
-      name: get-employ-positions-fn-74bc292a-79ca-4f6c-a02b-cb847aec7b41
+      name: onb-us-enum-jb-pos-fn-fcf6a3a5-6049-4f82-a6fc-d6c4d9191b91
       namespace: default
   requestsPerPod: 10000
   resources: {}
