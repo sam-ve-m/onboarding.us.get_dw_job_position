@@ -1,0 +1,57 @@
+include:
+- fission.py
+kind: ArchiveUploadSpec
+name: fission-py-Sndd
+
+---
+apiVersion: fission.io/v1
+kind: Package
+metadata:
+  creationTimestamp: null
+  name: onb-us-enum-jb-pos-fn-fcf6a3a5-6049-4f82-a6fc-d6c4d9191b91
+  namespace: default
+spec:
+  deployment:
+    checksum: {}
+    type: url
+    url: archive://fission-py-Sndd
+  environment:
+    name: onb-us-enum-jb-pos-env
+    namespace: default
+  source:
+    checksum: {}
+status:
+  buildstatus: none
+  lastUpdateTimestamp: "2023-01-05T19:54:06Z"
+
+---
+apiVersion: fission.io/v1
+kind: Function
+metadata:
+  creationTimestamp: null
+  name: onb-us-enum-jb-pos-fn
+  namespace: default
+spec:
+  InvokeStrategy:
+    ExecutionStrategy:
+      ExecutorType: poolmgr
+      SpecializationTimeout: 120
+    StrategyType: execution
+  concurrency: 500
+  environment:
+    name: onb-us-enum-jb-pos-env
+    namespace: default
+  functionTimeout: 60
+  idletimeout: 120
+  package:
+    packageref:
+      name: onb-us-enum-jb-pos-fn-fcf6a3a5-6049-4f82-a6fc-d6c4d9191b91
+      namespace: default
+  requestsPerPod: 10000
+  resources:
+    requests:
+      cpu: 128m
+      memory: 128Mi
+    limits:
+      cpu: 256m
+      memory: 256Mi
